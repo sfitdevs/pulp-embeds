@@ -2,7 +2,6 @@
   const sourceURL = new URL(document.currentScript.src);
   const params = sourceURL.searchParams;
   const target = new URL(params.get("target"));
-  const type = params.get("type") || 'code';
   const style = params.get("style");
   const styleClassName = `hljs-style-${style.replace(/[^a-zA-Z0-9]/g, '-')}`;
   const lightStyles = ['default', 'a11y-light', 'arduino-light', 'ascetic', 'atom-one-light', 'brown-paper', 'color-brewer', 'docco', 'foundation', 'github', 'googlecode', 'gradient-light', 'grayscale', 'idea', 'intellij-light', 'isbl-editor-light', 'kimbie-light', 'lightfair', 'magula', 'mono-blue', 'nnfx-light', 'panda-syntax-light', 'paraiso-light', 'purebasic', 'qtcreator-light', 'routeros', 'school-book', 'stackoverflow-light', 'tokyo-night-light', 'vs', 'xcode', 'base16/atelier-cave-light', 'base16/atelier-dune-light', 'base16/atelier-estuary-light', 'base16/atelier-forest-light', 'base16/atelier-heath-light', 'base16/atelier-lakeside-light', 'base16/atelier-plateau-light', 'base16/atelier-savanna-light', 'base16/atelier-seaside-light', 'base16/atelier-sulphurpool-light', 'base16/brush-trees', 'base16/classic-light', 'base16/cupcake', 'base16/cupertino', 'base16/default-light', 'base16/dirtysea', 'base16/edge-light', 'base16/equilibrium-gray-light', 'base16/equilibrium-light', 'base16/fruit-soda', 'base16/github', 'base16/google-light', 'base16/grayscale-light', 'base16/gruvbox-light-hard', 'base16/gruvbox-light-medium', 'base16/gruvbox-light-soft', 'base16/harmonic16-light', 'base16/heetch-light', 'base16/horizon-light', 'base16/humanoid-light', 'base16/ia-light', 'base16/material-lighter', 'base16/mexico-light', 'base16/one-light', 'base16/papercolor-light', 'base16/ros-pine-dawn', 'base16/sagelight', 'base16/shapeshifter', 'base16/silk-light', 'base16/solar-flare-light', 'base16/solarized-light', 'base16/summerfruit-light', 'base16/synth-midnight-terminal-light', 'base16/tomorrow', 'base16/unikitty-light', 'base16/windows-10-light', 'base16/windows-95-light', 'base16/windows-high-contrast-light', 'base16/windows-nt-light'];
@@ -18,7 +17,6 @@
   const tabSize = target.searchParams.get("ts") || 8;
   const pathSplit = target.pathname.split("/");
   const key = pathSplit[1];
-  const fileURL = target.href;
   const rawFileURL = `https://p.aadi.lol/api/${key}`;
   const pulpUrl = "https://p.aadi.lol/";
   const containerId = Math.random().toString(36).substring(2);
@@ -206,21 +204,6 @@
   .emgithub-file .html-area .nb-output:before {
     content: "Out [" attr(data-prompt-number) "]:";
   }
-  .emgithub-file .html-area.markdown-body {
-    box-sizing: border-box;
-    min-width: 200px;
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 45px;
-  }
-  .emgithub-file .html-area.markdown-body .nb-notebook {
-    padding-left: 65px;
-  }
-  @media (max-width: 767px) {
-    .emgithub-file .html-area.markdown-body {
-      padding: 15px;
-    }
-  }
 </style>
 <div id="${containerId}" class="emgithub-container">
   <div class="lds-ring">
@@ -232,18 +215,16 @@
   <div class="emgithub-file emgithub-file-${isDarkStyle ? 'dark' : 'light'}"
     style="display:none;${showBorder ? '' : 'border:0'}">
     <div class="file-data ${styleClassName}">
-      ${type === 'code' ? `<div class="code-area">
+      <div class="code-area">
         ${showCopy ? `<a class="copy-btn copy-btn-${isDarkStyle ? 'dark' : 'light'}" href="javascript:void(0)">Copy</a>`
-        : ''}
+      : ''}
         <pre><code class="${showLineNumbers ? '' : 'hide-line-numbers'}"></code></pre>
-      </div>`: ''}
-      ${type === 'markdown' || type === 'ipynb' ? `
-      <div class="html-area markdown-body"></div>` : ''}
+      </div>
     </div>
     ${showFileMeta ? `<div class="file-meta file-meta-${isDarkStyle ? 'dark' : 'light'}"
       style="${showBorder ? '' : 'border:0'}">
-      <a target="_blank" href="${fileURL}!" style="float:right">view raw</a>
-      <a id="filename" target="_blank" href="${fileURL}">${key}</a>
+      <a target="_blank" href="${pulpUrl + key}!" style="float:right">view raw</a>
+      <a id="filename" target="_blank" href="${pulpUrl + key}">${key}</a>
       delivered <span class="hide-in-phone">with ❤ </span>by <a target="_blank" href="${pulpUrl}">pulp</a>
     </div>`: ''
     }
@@ -254,7 +235,7 @@
     if (!response.ok) return Promise.reject(`${response.status}\nFailed to download ${rawFileURL}`);
     return response.json();
   }).then(({ key, content, language }) => {
-    document.getElementById("filename").innerText = `${key}.${language}`;
+    if (showFileMeta) document.getElementById("filename").innerText = `${key}.${language}`;
     return content;
   });
 
