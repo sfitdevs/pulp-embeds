@@ -11,6 +11,7 @@
   const showLineNumbers = params.get("showLineNumbers") === "on";
   const showFileMeta = params.get("showFileMeta") === "on";
   const showCopy = params.get("showCopy") === "on";
+  const bold = params.get("showBold") === "on";
   const lineSplit = target.hash.split("-");
   const startLine = target.hash !== "" && lineSplit[0].replace("#l", "") || -1;
   const endLine = target.hash !== "" && lineSplit.length > 1 && lineSplit[1].replace("l", "") || startLine;
@@ -23,6 +24,9 @@
   const containerId = Math.random().toString(36).substring(2);
   document.currentScript.insertAdjacentHTML('afterend', `
 <style>
+  pre {
+    font-weight: ${bold ? "bold" : "normal"};
+  }
   .lds-ring {
     margin: 3rem auto;
     position: relative;

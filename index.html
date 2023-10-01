@@ -308,6 +308,11 @@
         <input type="checkbox" class="form-check-input" name="showCopy" id="showCopy" checked>
         <label class="form-check-label" for="showCopy">Copy button</label>
       </div>
+
+      <div class="form-check form-check-inline">
+        <input type="checkbox" class="form-check-input" name="showBold" id="showBold" checked>
+        <label class="form-check-label" for="showBold">Bold</label>
+      </div>
     </form>
 
     <label for="embededCode" class="form-label">Code to embed</label>
@@ -346,7 +351,7 @@
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
       // Load options from localStorage if possible
-      ['showBorder', 'showLineNumbers', 'showFileMeta', 'showCopy'].forEach(e => {
+      ['showBorder', 'showLineNumbers', 'showFileMeta', 'showCopy', 'showBold'].forEach(e => {
         const isShown = localStorage.getItem(e);
         if (isShown !== null) {
           document.getElementById(e).checked = (isShown === 'true');
@@ -363,7 +368,7 @@
         e.preventDefault();
 
         // Save current options using localStorage
-        ['showBorder', 'showLineNumbers', 'showFileMeta', 'showCopy'].forEach(e => {
+        ['showBorder', 'showLineNumbers', 'showFileMeta', 'showCopy', 'showBold'].forEach(e => {
           const element = document.getElementById(e);
           if (!element.parentElement.classList.contains('d-none')) {
             // Only save the non-hidden options
