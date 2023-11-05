@@ -17,8 +17,8 @@
   const tabSize = target.searchParams.get("ts") || 8;
   const pathSplit = target.pathname.split("/");
   const key = pathSplit[1];
-  const rawFileURL = `https://p.aadi.lol/api/${key}`;
-  const pulpUrl = "https://p.aadi.lol/";
+  const rawFileURL = `https://pulp.deta.dev/api/${key}`;
+  const pulpUrl = "https://pulp.deta.dev/";
   const containerId = Math.random().toString(36).substring(2);
   document.currentScript.insertAdjacentHTML('afterend', `
 <style>

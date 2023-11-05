@@ -380,7 +380,7 @@
         localStorage.setItem('style', document.getElementById('style').value);
 
         const target = targetInput.value;
-        const pattern = /^https:\/\/p\.aadi\.lol\//;
+        const pattern = /^https:\/\/pulp\.deta\.dev\//;
         if (pattern.test(target)) {
           targetInput.classList.remove("is-invalid");
           targetInput.classList.add("is-valid");
@@ -413,7 +413,7 @@
         document.querySelector("#goButton").click();
       } else {
         // Is entering the site directly
-        targetInput.placeholder = "https://p.aadi.lol/wdiex.js#l2-l6";
+        targetInput.placeholder = "https://pulp.deta.dev/wdiex.js#l2-l6";
       }
 
       // Add the favicon dynamically
